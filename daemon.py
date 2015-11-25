@@ -8,7 +8,7 @@ COMMANDS = ['on','off']
 MAX_LENGTH = 4096
 HEATING_TIME = 5.0
 
-HEATER_GPIO_PIN = 2
+HEATER_GPIO_PIN = 13
 HEATER_ON = False
 HEATER_OFF = True
 
@@ -66,6 +66,7 @@ serversocket.bind((HOST, PORT))
 serversocket.listen(10)
 
 #Setup GPIO
+GPIO.setmode(GPIO.BOARD)
 GPIO.setup(HEATER_GPIO_PIN, GPIO.OUT)
 GPIO.output(HEATER_GPIO_PIN, HEATER_OFF)
 
