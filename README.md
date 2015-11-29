@@ -16,3 +16,7 @@ To shut off the heater:
 ```
 python client.py off
 ```
+
+## Requirements
+https://pypi.python.org/pypi/RPi.GPIO
+
