@@ -53,6 +53,7 @@ def handleMessage(clientsocket):
 
     if not buffer in COMMANDS:
       print 'Received incorrect command!'
+      return
 
     if buffer == 'on':
       heaterStart()
