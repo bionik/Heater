@@ -47,7 +47,7 @@ def heaterShutdown():
 def handleMessage(clientsocket):
   while 1:
     buffer = clientsocket.recv(MAX_LENGTH)
-    if buffer == '': 
+    if buffer == '':
       return
     print 'Command received: '+buffer
 
