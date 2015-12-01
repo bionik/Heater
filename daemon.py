@@ -1,8 +1,11 @@
 import socket
 import os
+import time
 from threading import Thread
 from threading import Timer
 import RPi.GPIO as GPIO
+
+STATUS_FILE = 'status.txt'
 
 COMMANDS = ['on','off']
 MAX_LENGTH = 4096
@@ -16,6 +19,11 @@ PORT = 31337
 HOST = '127.0.0.1'
 
 timer = None
+
+def writeStatusFile(status):
+  f = open(STATUS_FILE,'w')
+  f.write(status)
+  f.close()
 
 def heaterStart():
   global timer
@@ -31,6 +39,7 @@ def heaterStart():
   print 'Creating new timer with duration: '+str(HEATING_TIME)
   timer = Timer(HEATING_TIME, heaterShutdown)
   timer.start()
+  writeStatusFile('on {0} {1}'.format(time.time(), HEATING_TIME))
 
 def heaterShutdown():
   global timer
@@ -42,7 +51,7 @@ def heaterShutdown():
 
   print 'Shut down heater'
   GPIO.output(HEATER_GPIO_PIN, HEATER_OFF)
-
+  writeStatusFile('off')
 
 def handleMessage(clientsocket):
   while 1:
@@ -70,6 +79,8 @@ serversocket.listen(10)
 GPIO.setmode(GPIO.BOARD)
 GPIO.setup(HEATER_GPIO_PIN, GPIO.OUT)
 GPIO.output(HEATER_GPIO_PIN, HEATER_OFF)
+
+writeStatusFile('off')
 
 print 'Started Heater daemon (PID ' + str(os.getpid()) + ')'
 
